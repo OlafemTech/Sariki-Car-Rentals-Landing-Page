@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LuxDrive - Premium Car Rental Service</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#3b82f6", secondary: "#10b981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Inter', sans-serif;
+          scroll-behavior: smooth;
+      }
+      .hero-section {
+          background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://public.readdy.ai/ai/img_res/c67dcdb65bba418110f7a732a0ed128a.jpg');
+          background-size: cover;
+          background-position: center;
+      }
+      .nav-link {
+          position: relative;
+      }
+      .nav-link::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: -2px;
+          left: 0;
+          background-color: #3b82f6;
+          transition: width 0.3s;
+      }
+      .nav-link:hover::after {
+          width: 100%;
+      }
+      .car-card {
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .car-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      input:focus, select:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      }
+      .custom-checkbox {
+          position: relative;
+          padding-left: 28px;
+          cursor: pointer;
+      }
+      .custom-checkbox input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+      }
+      .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 20px;
+          width: 20px;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+          background-color: #3b82f6;
+          border-color: #3b82f6;
+      }
+      .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+          display: block;
+      }
+      .custom-checkbox .checkmark:after {
+          left: 6px;
+          top: 2px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 48px;
+          height: 24px;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #e5e7eb;
+          transition: .4s;
+          border-radius: 24px;
+      }
+      .slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .slider {
+          background-color: #3b82f6;
+      }
+      input:checked + .slider:before {
+          transform: translateX(24px);
+      }
+      .custom-range {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 6px;
+          border-radius: 5px;
+          background: #e5e7eb;
+          outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #3b82f6;
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .custom-range::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #3b82f6;
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .testimonial-card {
+          transition: transform 0.3s;
+      }
+      .testimonial-card:hover {
+          transform: translateY(-5px);
+      }
+      .counter-value {
+          transition: all 2s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <a href="index.html" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="#home"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Home</a
+            >
+            <a
+              href="#cars"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Cars</a
+            >
+            <a
+              href="fleet-view-booking.html"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Features</a
+            >
+            <a
+              href="#booking"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Book Now</a
+            >
+            <a
+              href="#testimonials"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Testimonials</a
+            >
+            <a
+              href="#contact"
+              class="nav-link text-gray-700 hover:text-primary font-medium"
+              >Contact</a
+            >
+          </div>
+          <div class="hidden md:flex items-center space-x-4">
+            <a href="#" class="text-gray-700 hover:text-primary font-medium"
+              >Login</a
+            >
+            <a
+              href="#"
+              class="bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+              >Sign Up</a
+            >
+          </div>
+          <div class="md:hidden flex items-center">
+            <button
+              class="text-gray-700 hover:text-primary w-10 h-10 flex items-center justify-center"
+            >
+              <i class="ri-menu-line ri-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="hero-section min-h-screen flex items-center pt-16"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="text-center md:text-left md:max-w-2xl">
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+          >
+            Drive Your Dreams, <br />One Mile at a Time
+          </h1>
+          <p class="text-xl text-gray-200 mb-8">
+            Experience luxury and comfort with our premium car rental service.
+            Choose from our wide range of vehicles for any occasion.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+          >
+            <a
+              href="#booking"
+              class="bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+            >
+              Book Now
+            </a>
+            <a
+              href="#cars"
+              class="bg-white text-gray-800 px-8 py-3 !rounded-button font-medium hover:bg-gray-100 transition-colors whitespace-nowrap"
+            >
+              Explore Cars
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Car Showcase Section -->
+    <section id="cars" class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Our Premium Fleet
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Choose from our collection of luxury, sports, and economy vehicles
+            to suit your needs and style.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Car Card 1 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/b4fcb4ab47c04b17720c8e900583970c.jpg"
+                alt="Mercedes S-Class"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">
+                  Mercedes S-Class
+                </h3>
+                <span class="text-primary font-semibold">$199/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Luxury Sedan</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">5 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-gas-station-line"></i>
+                  </div>
+                  <span class="text-gray-700">Hybrid</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Automatic</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">250 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+
+          <!-- Car Card 2 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/7eecf19a143a6d6c774b222f5284bfaf.jpg"
+                alt="Tesla Model S"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">Tesla Model S</h3>
+                <span class="text-primary font-semibold">$179/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Electric Sedan</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">5 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-flashlight-line"></i>
+                  </div>
+                  <span class="text-gray-700">Electric</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Automatic</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">250 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+
+          <!-- Car Card 3 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/521c867d4ddc5357d57f9e0cf47ddd1f.jpg"
+                alt="BMW X5"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">BMW X5</h3>
+                <span class="text-primary font-semibold">$189/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Luxury SUV</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">7 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-gas-station-line"></i>
+                  </div>
+                  <span class="text-gray-700">Diesel</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Automatic</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">220 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+
+          <!-- Car Card 4 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/1b26af570af3678ea10f64a7931c59a2.jpg"
+                alt="Porsche 911"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">Porsche 911</h3>
+                <span class="text-primary font-semibold">$249/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Sports Car</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">2 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-gas-station-line"></i>
+                  </div>
+                  <span class="text-gray-700">Petrol</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Manual</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">330 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+
+          <!-- Car Card 5 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/8a7a0747bc9d13bf489855d360e36373.jpg"
+                alt="Range Rover"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">Range Rover</h3>
+                <span class="text-primary font-semibold">$219/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Luxury SUV</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">5 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-gas-station-line"></i>
+                  </div>
+                  <span class="text-gray-700">Diesel</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Automatic</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">210 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+
+          <!-- Car Card 6 -->
+          <div class="car-card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://public.readdy.ai/ai/img_res/cefec961333d223e59d27d3114ebd5d7.jpg"
+                alt="Audi A8"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-xl font-bold text-gray-900">Audi A8</h3>
+                <span class="text-primary font-semibold">$189/day</span>
+              </div>
+              <p class="text-gray-600 mb-4">Luxury Sedan</p>
+              <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line"></i>
+                  </div>
+                  <span class="text-gray-700">5 Seats</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-gas-station-line"></i>
+                  </div>
+                  <span class="text-gray-700">Hybrid</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="text-gray-700">Automatic</span>
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-dashboard-3-line"></i>
+                  </div>
+                  <span class="text-gray-700">250 km/h</span>
+                </div>
+              </div>
+              <a
+                href="#booking"
+                class="block w-full bg-primary text-white text-center py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >Book Now</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a
+            href="view-all-cars.html"
+            class="inline-flex items-center text-primary font-medium hover:text-blue-700"
+          >
+            View All Cars
+            <div class="w-5 h-5 flex items-center justify-center ml-2">
+              <i class="ri-arrow-right-line"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="features" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Why Choose Us
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            We provide premium car rental services with a focus on quality,
+            convenience, and customer satisfaction.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Feature 1 -->
+          <div class="bg-gray-50 p-6 rounded-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center text-primary"
+            >
+              <i class="ri-car-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">
+              Premium Vehicles
+            </h3>
+            <p class="text-gray-600">
+              Our fleet consists of the latest models from top luxury brands,
+              maintained to the highest standards.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-gray-50 p-6 rounded-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center text-primary"
+            >
+              <i class="ri-24-hours-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">24/7 Support</h3>
+            <p class="text-gray-600">
+              Our customer support team is available round the clock to assist
+              you with any queries or issues.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-gray-50 p-6 rounded-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center text-primary"
+            >
+              <i class="ri-shield-check-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Fully Insured</h3>
+            <p class="text-gray-600">
+              All our vehicles come with comprehensive insurance coverage for
+              your peace of mind.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="bg-gray-50 p-6 rounded-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center text-primary"
+            >
+              <i class="ri-map-pin-line ri-2x"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">
+              Flexible Pickup
+            </h3>
+            <p class="text-gray-600">
+              Choose from multiple pickup and drop-off locations across the city
+              for your convenience.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
+          <!-- Counter 1 -->
+          <div
+            class="bg-white p-6 rounded-lg text-center border border-gray-200"
+          >
+            <div
+              class="text-4xl font-bold text-primary mb-2 counter-value"
+              data-target="500"
+            >
+              0
+            </div>
+            <p class="text-gray-600 font-medium">Luxury Vehicles</p>
+          </div>
+
+          <!-- Counter 2 -->
+          <div
+            class="bg-white p-6 rounded-lg text-center border border-gray-200"
+          >
+            <div
+              class="text-4xl font-bold text-primary mb-2 counter-value"
+              data-target="25000"
+            >
+              0
+            </div>
+            <p class="text-gray-600 font-medium">Happy Customers</p>
+          </div>
+
+          <!-- Counter 3 -->
+          <div
+            class="bg-white p-6 rounded-lg text-center border border-gray-200"
+          >
+            <div
+              class="text-4xl font-bold text-primary mb-2 counter-value"
+              data-target="100"
+            >
+              0
+            </div>
+            <p class="text-gray-600 font-medium">Pickup Locations</p>
+          </div>
+
+          <!-- Counter 4 -->
+          <div
+            class="bg-white p-6 rounded-lg text-center border border-gray-200"
+          >
+            <div
+              class="text-4xl font-bold text-primary mb-2 counter-value"
+              data-target="15"
+            >
+              0
+            </div>
+            <p class="text-gray-600 font-medium">Years Experience</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="booking" class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Book Your Dream Car
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Complete the form below to reserve your vehicle. We'll confirm your
+            booking within minutes.
+          </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+          <div class="lg:w-1/2">
+            <form class="bg-white p-8 rounded-lg shadow-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label
+                    for="pickup-location"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Pickup Location</label
+                  >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <input
+                      type="text"
+                      id="pickup-location"
+                      class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                      placeholder="Enter pickup location"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="dropoff-location"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Drop-off Location</label
+                  >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <input
+                      type="text"
+                      id="dropoff-location"
+                      class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                      placeholder="Enter drop-off location"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="pickup-date"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Pickup Date</label
+                  >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+                    >
+                      <i class="ri-calendar-line"></i>
+                    </div>
+                    <input
+                      type="date"
+                      id="pickup-date"
+                      class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="dropoff-date"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Drop-off Date</label
+                  >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+                    >
+                      <i class="ri-calendar-line"></i>
+                    </div>
+                    <input
+                      type="date"
+                      id="dropoff-date"
+                      class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <label
+                  for="car-type"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Vehicle Type</label
+                >
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+                  >
+                    <i class="ri-car-line"></i>
+                  </div>
+                  <select
+                    id="car-type"
+                    class="w-full pl-10 pr-8 py-2 border border-gray-300 rounded appearance-none focus:ring-primary"
+                  >
+                    <option value="">Select a vehicle type</option>
+                    <option value="luxury-sedan">Luxury Sedan</option>
+                    <option value="sports-car">Sports Car</option>
+                    <option value="suv">SUV</option>
+                    <option value="electric">Electric</option>
+                  </select>
+                  <div
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500"
+                  >
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Additional Options</label
+                >
+                <div class="space-y-3">
+                  <label class="custom-checkbox flex items-center">
+                    <input type="checkbox" class="hidden" />
+                    <span class="checkmark"></span>
+                    <span class="ml-2 text-gray-700"
+                      >GPS Navigation (+$10/day)</span
+                    >
+                  </label>
+                  <label class="custom-checkbox flex items-center">
+                    <input type="checkbox" class="hidden" />
+                    <span class="checkmark"></span>
+                    <span class="ml-2 text-gray-700">Child Seat (+$5/day)</span>
+                  </label>
+                  <label class="custom-checkbox flex items-center">
+                    <input type="checkbox" class="hidden" />
+                    <span class="checkmark"></span>
+                    <span class="ml-2 text-gray-700"
+                      >Additional Driver (+$15/day)</span
+                    >
+                  </label>
+                  <label class="custom-checkbox flex items-center">
+                    <input type="checkbox" class="hidden" />
+                    <span class="checkmark"></span>
+                    <span class="ml-2 text-gray-700"
+                      >Full Insurance Coverage (+$25/day)</span
+                    >
+                  </label>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Mileage Limit</label
+                >
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-600 text-sm">100 km/day</span>
+                  <span class="text-gray-600 text-sm">Unlimited</span>
+                </div>
+                <input
+                  type="range"
+                  min="100"
+                  max="1000"
+                  step="100"
+                  value="300"
+                  class="custom-range w-full"
+                />
+                <div class="text-center mt-2">
+                  <span class="text-sm font-medium text-gray-700"
+                    >Selected: <span id="mileage-value">300</span> km/day</span
+                  >
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label
+                    for="first-name"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    id="first-name"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your first name"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="last-name"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    id="last-name"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your last name"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="phone"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+              </div>
+
+              <div class="flex items-center mb-6">
+                <label class="custom-switch mr-3">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+                <span class="text-gray-700"
+                  >I agree to the terms and conditions</span
+                >
+              </div>
+
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+              >
+                Complete Booking
+              </button>
+            </form>
+          </div>
+          <div class="lg:w-1/2 flex items-center">
+            <div class="w-full">
+              <img
+                src="https://public.readdy.ai/ai/img_res/dbd8075afab1a433e8538d14481e6cbf.jpg"
+                alt="Booking Process"
+                class="w-full h-auto rounded-lg shadow-lg"
+              />
+              <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">
+                  Booking Process
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-3"
+                    >
+                      1
+                    </div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">
+                        Select Your Vehicle
+                      </h4>
+                      <p class="text-gray-600 text-sm">
+                        Choose from our premium fleet of vehicles.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-3"
+                    >
+                      2
+                    </div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">
+                        Choose Dates & Location
+                      </h4>
+                      <p class="text-gray-600 text-sm">
+                        Select your preferred pickup and drop-off details.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-3"
+                    >
+                      3
+                    </div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">
+                        Add Optional Extras
+                      </h4>
+                      <p class="text-gray-600 text-sm">
+                        Customize your rental with additional services.
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex">
+                    <div
+                      class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-3"
+                    >
+                      4
+                    </div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Confirm & Pay</h4>
+                      <p class="text-gray-600 text-sm">
+                        Complete your booking with secure payment.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            What Our Customers Say
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Don't just take our word for it. Here's what our customers have to
+            say about their experience with us.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400 flex">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+              </div>
+              <span class="ml-2 text-gray-600 text-sm">5.0</span>
+            </div>
+            <p class="text-gray-700 mb-6">
+              "The service was exceptional from start to finish. The Mercedes
+              S-Class I rented was immaculate and performed flawlessly. The
+              staff were professional and made the entire process seamless. Will
+              definitely use again for my next business trip!"
+            </p>
+            <div class="flex items-center">
+              <img
+                src="https://public.readdy.ai/ai/img_res/25ca665b76a6e84ce2c9e9028107ef07.jpg"
+                alt="James Wilson"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+              <div class="ml-3">
+                <h4 class="font-medium text-gray-900">James Wilson</h4>
+                <p class="text-gray-600 text-sm">Business Executive</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400 flex">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+              </div>
+              <span class="ml-2 text-gray-600 text-sm">5.0</span>
+            </div>
+            <p class="text-gray-700 mb-6">
+              "Rented a Tesla Model S for our anniversary weekend and it made
+              the trip so special! The car was pristine and the customer service
+              was outstanding. The booking process was simple and they even
+              delivered the car to our hotel. Highly recommend!"
+            </p>
+            <div class="flex items-center">
+              <img
+                src="https://public.readdy.ai/ai/img_res/19d6cb60ed7d6cb23d0fc91c3e6ffb56.jpg"
+                alt="Sarah & Michael Johnson"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+              <div class="ml-3">
+                <h4 class="font-medium text-gray-900">
+                  Sarah & Michael Johnson
+                </h4>
+                <p class="text-gray-600 text-sm">Couple</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card bg-gray-50 p-6 rounded-lg shadow-sm">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400 flex">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-half-fill"></i>
+              </div>
+              <span class="ml-2 text-gray-600 text-sm">4.5</span>
+            </div>
+            <p class="text-gray-700 mb-6">
+              "I needed a luxury SUV for a client visit and the BMW X5 was
+              perfect. The rental process was quick and the staff were very
+              accommodating with my schedule changes. The vehicle was in
+              excellent condition and made a great impression. Will use again!"
+            </p>
+            <div class="flex items-center">
+              <img
+                src="https://public.readdy.ai/ai/img_res/66bd20f41409aab4befb5bae1557bc1c.jpg"
+                alt="Emily Rodriguez"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+              <div class="ml-3">
+                <h4 class="font-medium text-gray-900">Emily Rodriguez</h4>
+                <p class="text-gray-600 text-sm">Marketing Director</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-12">
+          <div class="flex space-x-2">
+            <button class="w-3 h-3 rounded-full bg-primary"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Contact Us
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Have questions or need assistance? Our team is here to help you with
+            any inquiries.
+          </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+          <div class="lg:w-1/2">
+            <form class="bg-white p-8 rounded-lg shadow-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label
+                    for="contact-name"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Your Name</label
+                  >
+                  <input
+                    type="text"
+                    id="contact-name"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your name"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="contact-email"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="contact-email"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                    placeholder="Enter your email"
+                  />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label
+                  for="contact-subject"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Subject</label
+                >
+                <input
+                  type="text"
+                  id="contact-subject"
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                  placeholder="Enter subject"
+                />
+              </div>
+              <div class="mb-6">
+                <label
+                  for="contact-message"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Message</label
+                >
+                <textarea
+                  id="contact-message"
+                  rows="5"
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-primary"
+                  placeholder="Enter your message"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+          <div class="lg:w-1/2">
+            <div class="bg-white p-8 rounded-lg shadow-md h-full">
+              <h3 class="text-xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+              <div class="space-y-6">
+                <div class="flex">
+                  <div
+                    class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-4"
+                  >
+                    <i class="ri-map-pin-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-900 mb-1">Main Office</h4>
+                    <p class="text-gray-600">
+                      123 Luxury Drive, New York, NY 10001, USA
+                    </p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div
+                    class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-4"
+                  >
+                    <i class="ri-phone-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-900 mb-1">Phone Number</h4>
+                    <p class="text-gray-600">+1 (555) 123-4567</p>
+                    <p class="text-gray-600">+1 (555) 987-6543</p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div
+                    class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-4"
+                  >
+                    <i class="ri-mail-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-900 mb-1">
+                      Email Address
+                    </h4>
+                    <p class="text-gray-600">info@luxdrive.com</p>
+                    <p class="text-gray-600">support@luxdrive.com</p>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div
+                    class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary mr-4"
+                  >
+                    <i class="ri-time-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-900 mb-1">
+                      Working Hours
+                    </h4>
+                    <p class="text-gray-600">
+                      Monday - Friday: 8:00 AM - 8:00 PM
+                    </p>
+                    <p class="text-gray-600">
+                      Saturday - Sunday: 9:00 AM - 6:00 PM
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8">
+                <h4 class="font-medium text-gray-900 mb-4">Follow Us</h4>
+                <div class="flex space-x-4">
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-primary hover:bg-blue-200 transition-colors"
+                  >
+                    <i class="ri-facebook-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-primary hover:bg-blue-200 transition-colors"
+                  >
+                    <i class="ri-twitter-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-primary hover:bg-blue-200 transition-colors"
+                  >
+                    <i class="ri-instagram-fill"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-primary hover:bg-blue-200 transition-colors"
+                  >
+                    <i class="ri-linkedin-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16 bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="h-96 w-full">
+            <img
+              src="https://public.readdy.ai/gen_page/map_placeholder_1280x720.png"
+              alt="Location Map"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-primary">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <div class="mb-8 md:mb-0 md:w-1/2">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">
+              Subscribe to Our Newsletter
+            </h2>
+            <p class="text-blue-100">
+              Stay updated with our latest offers, new vehicles, and exclusive
+              deals.
+            </p>
+          </div>
+          <div class="w-full md:w-1/2">
+            <form class="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                class="flex-grow px-4 py-3 rounded-l-lg rounded-r-lg sm:rounded-r-none border-none focus:ring-2 focus:ring-white text-gray-800"
+              />
+              <button
+                type="submit"
+                class="bg-white text-primary px-6 py-3 rounded-l-lg rounded-r-lg sm:rounded-l-none font-medium hover:bg-gray-100 transition-colors whitespace-nowrap !rounded-button"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div>
+            <a
+              href="#"
+              class="text-2xl font-['Pacifico'] text-white mb-6 inline-block"
+              >logo</a
+            >
+            <p class="text-gray-400 mb-6">
+              Premium car rental service providing luxury vehicles for any
+              occasion. Experience the thrill of driving your dream car today.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold mb-6">Quick Links</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#cars"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Our Fleet</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#features"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Why Choose Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#booking"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Book Now</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#testimonials"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Testimonials</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold mb-6">Our Services</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Luxury Car Rental</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Wedding Car Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Business Travel</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Airport Transfers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Chauffeur Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors"
+                  >Long-Term Rental</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold mb-6">Contact Information</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="text-gray-400"
+                  >123 Luxury Drive, New York, NY 10001, USA</span
+                >
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="text-gray-400">+1 (555) 123-4567</span>
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="text-gray-400">info@luxdrive.com</span>
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1"
+                >
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="text-gray-400">Mon-Fri: 8:00 AM - 8:00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            &copy; 2025 LuxDrive. All rights reserved.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="#"
+              class="text-gray-400 text-sm hover:text-white transition-colors"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 text-sm hover:text-white transition-colors"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 text-sm hover:text-white transition-colors"
+              >Cookie Policy</a
+            >
+          </div>
+          <div class="flex items-center mt-4 md:mt-0 space-x-4">
+            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+              <i class="ri-visa-fill ri-lg"></i>
+            </div>
+            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+              <i class="ri-mastercard-fill ri-lg"></i>
+            </div>
+            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+              <i class="ri-paypal-fill ri-lg"></i>
+            </div>
+            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+              <i class="ri-apple-fill ri-lg"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Counter animation
+      const counters = document.querySelectorAll(".counter-value");
+      const options = {
+        threshold: 0.5,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const counter = entry.target;
+            const target = parseInt(counter.getAttribute("data-target"));
+            let count = 0;
+            const duration = 2000;
+            const increment = target / (duration / 16);
+
+            const updateCount = () => {
+              count += increment;
+              if (count < target) {
+                counter.innerText = Math.ceil(count);
+                requestAnimationFrame(updateCount);
+              } else {
+                counter.innerText = target;
+              }
+            };
+
+            updateCount();
+            observer.unobserve(counter);
+          }
+        });
+      }, options);
+
+      counters.forEach((counter) => {
+        observer.observe(counter);
+      });
+
+      // Range slider
+      const rangeSlider = document.querySelector(".custom-range");
+      const mileageValue = document.getElementById("mileage-value");
+
+      if (rangeSlider && mileageValue) {
+        rangeSlider.addEventListener("input", function () {
+          mileageValue.textContent = this.value;
+        });
+      }
+
+      // Mobile menu toggle
+      const mobileMenuButton = document.querySelector(".md\\:hidden button");
+      const mobileMenu = document.createElement("div");
+      mobileMenu.className =
+        "md:hidden fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 ease-in-out";
+      mobileMenu.innerHTML = `
+                  <div class="flex justify-between items-center p-4 border-b">
+                      <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+                      <button class="text-gray-700 hover:text-primary w-10 h-10 flex items-center justify-center">
+                          <i class="ri-close-line ri-lg"></i>
+                      </button>
+                  </div>
+                  <div class="p-4">
+                      <nav class="space-y-4">
+                          <a href="#home" class="block py-2 text-gray-700 hover:text-primary font-medium">Home</a>
+                          <a href="#cars" class="block py-2 text-gray-700 hover:text-primary font-medium">Cars</a>
+                          <a href="#features" class="block py-2 text-gray-700 hover:text-primary font-medium">Features</a>
+                          <a href="#booking" class="block py-2 text-gray-700 hover:text-primary font-medium">Book Now</a>
+                          <a href="#testimonials" class="block py-2 text-gray-700 hover:text-primary font-medium">Testimonials</a>
+                          <a href="#contact" class="block py-2 text-gray-700 hover:text-primary font-medium">Contact</a>
+                      </nav>
+                      <div class="mt-6 pt-6 border-t">
+                          <a href="#" class="block py-2 text-gray-700 hover:text-primary font-medium">Login</a>
+                          <a href="#" class="block mt-4 bg-primary text-white px-4 py-2 rounded font-medium hover:bg-blue-600 transition-colors text-center">Sign Up</a>
+                      </div>
+                  </div>
+              `;
+      document.body.appendChild(mobileMenu);
+
+      if (mobileMenuButton) {
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("translate-x-full");
+          document.body.classList.toggle("overflow-hidden");
+        });
+      }
+
+      mobileMenu.querySelector("button").addEventListener("click", function () {
+        mobileMenu.classList.add("translate-x-full");
+        document.body.classList.remove("overflow-hidden");
+      });
+
+      mobileMenu.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function () {
+          mobileMenu.classList.add("translate-x-full");
+          document.body.classList.remove("overflow-hidden");
+        });
+      });
+    </script>
+  </body>
+</html>
